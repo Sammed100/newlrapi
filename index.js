@@ -10,7 +10,6 @@ app.use(bodyParser.json())
 const PORT = process.env.PORT || 3000;
 
 app.get('/api',(req,res)=>{
-    
 const language = req.query.language;
 const time_stamp = req.query.time_stamp;
 connection.query(`SELECT * FROM ${language} WHERE TIMESTAMP('${time_stamp}') < time_stamp`, (err, rows) => {
@@ -25,7 +24,7 @@ connection.query(`SELECT * FROM ${language} WHERE TIMESTAMP('${time_stamp}') < t
 })
 app.post('/api',(req,res)=>{
     var data = req.body
-    const currentTimestamp = new Date();
+    const currentTimestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
     const language = req.query.language
     var Data = [data.id,data.operation,currentTimestamp,data.word]
     connection.query(`INSERT INTO ${language}(id,operation,time_stamp,word) values(?)`,[Data],(err,rows)=>{
