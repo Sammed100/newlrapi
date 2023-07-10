@@ -24,7 +24,7 @@ connection.query(`SELECT * FROM ${language} WHERE TIMESTAMP('${time_stamp}') < t
 })
 app.post('/api',(req,res)=>{
     var data = req.body
-    const currentTimestamp = new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+    const currentTimestamp = new Date();
     const language = req.query.language
     var Data = [data.id,data.operation,currentTimestamp,data.word]
     connection.query(`INSERT INTO ${language}(id,operation,time_stamp,word) values(?)`,[Data],(err,rows)=>{
