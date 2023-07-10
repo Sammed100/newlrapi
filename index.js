@@ -1,6 +1,7 @@
 require("dotenv").config()
 const connection = require('./connection');
 const express = require('express');
+const moment = require('moment-timezone');
 const bodyParser = require('body-parser');
 var app = express();
 const cors = require('cors')
@@ -24,7 +25,7 @@ connection.query(`SELECT * FROM ${language} WHERE TIMESTAMP('${time_stamp}') < t
 })
 app.post('/api',(req,res)=>{
     var data = req.body
-    const currentTimestamp = new Date();
+    const currentTimestamp = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
     const language = req.query.language
     var Data = [data.id,data.operation,currentTimestamp,data.word]
     connection.query(`INSERT INTO ${language}(id,operation,time_stamp,word) values(?)`,[Data],(err,rows)=>{
