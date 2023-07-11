@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 app.get('/api',(req,res)=>{
 const language = req.query.language;
 const time_stamp = req.query.time_stamp;
-connection.query(`SELECT * FROM ${language} WHERE TIMESTAMP('${time_stamp}') < time_stamp`, (err, rows) => {
+connection.query(`SELECT * FROM data_table WHERE language='${language}' AND TIMESTAMP('${time_stamp}') < time_stamp`, (err, rows) => {
   if (err) {
     console.log(err);
     res.sendStatus(500);
@@ -27,8 +27,8 @@ app.post('/api',(req,res)=>{
     var data = req.body
     const currentTimestamp = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
     const language = req.query.language
-    var Data = [data.id,data.operation,currentTimestamp,data.word]
-    connection.query(`INSERT INTO ${language}(id,operation,time_stamp,word) values(?)`,[Data],(err,rows)=>{
+    var Data = [data.id,data.language,data.operation,currentTimestamp,data.word]
+    connection.query(`INSERT INTO data_table(id,language,operation,time_stamp,word) values(?)`,[Data],(err,rows)=>{
         if(err){
             console.log(err);
         }else{
