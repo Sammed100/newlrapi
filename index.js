@@ -27,7 +27,7 @@ app.post('/api',(req,res)=>{
     var data = req.body
     const currentTimestamp = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
     const language = req.query.language
-    var Data = [data.id,data.language,data.operation,currentTimestamp,data.word]
+    var Data = [data.id,language,data.operation,currentTimestamp,data.word]
     connection.query(`INSERT INTO data_table(id,language,operation,time_stamp,word) values(?)`,[Data],(err,rows)=>{
         if(err){
             console.log(err);
