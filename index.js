@@ -41,7 +41,7 @@ connection.query(`SELECT * FROM data_table WHERE language='${language}' AND TIME
     // console.log(server_sending_response);
     const server_sending_response = getCurrentDateTime();
   console.log(`Current date and time: ${server_sending_response}`);
-    res.send({rows});
+    res.send(rows);
   }
 });
     
