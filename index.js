@@ -1,16 +1,20 @@
 require("dotenv").config()
 const connection = require('./connection');
 const express = require('express');
+const morgan = require('morgan');
 const moment = require('moment-timezone');
 const bodyParser = require('body-parser');
 var app = express();
 const cors = require('cors')
 app.use(cors())
+app.use(morgan('dev'));
 app.use(bodyParser.json())
 
 const PORT = process.env.PORT || 3000;
 
 app.get('/api',(req,res)=>{
+  const server_getting_request = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss.SSS');
+  console.log(server_getting_request);
 const language = req.query.language;
 const time_stamp = req.query.time_stamp;
 connection.query(`SELECT * FROM data_table WHERE language='${language}' AND TIMESTAMP('${time_stamp}') < time_stamp`, (err, rows) => {
@@ -18,10 +22,12 @@ connection.query(`SELECT * FROM data_table WHERE language='${language}' AND TIME
     console.log(err);
     res.sendStatus(500);
   } else {
-    res.send(rows);
+    const server_sending_response = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss.SSS');
+    console.log(server_sending_response);
+    res.send({rows,server_getting_request,server_sending_response});
   }
 });
-    // res.send("Hi We are Live");
+    
 })
 app.post('/api',(req,res)=>{
     var data = req.body
