@@ -28,6 +28,10 @@ function getCurrentDateTime() {
 app.get('/api',(req,res)=>{
   // const server_getting_request = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss.SSS');
   // console.log(server_getting_request);
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.setHeader('Surrogate-Control', 'no-store');
   const server_getting_request = getCurrentDateTime();
   console.log(`Current date and time: ${server_getting_request}`);
 const language = req.query.language;
@@ -47,6 +51,10 @@ connection.query(`SELECT * FROM data_table WHERE language='${language}' AND TIME
     
 })
 app.post('/api',(req,res)=>{
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  res.setHeader('Surrogate-Control', 'no-store');
     var data = req.body
     const currentTimestamp = moment().tz('Asia/Kolkata').format('YYYY-MM-DD HH:mm:ss');
     const language = req.query.language
